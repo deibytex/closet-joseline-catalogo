@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Productos - El Clóset de Joseline</title>
+  
+  <!-- Tipografías elegantes de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Variables de Paleta Obligatoria */
+    :root {
+      --bg-primary: #F4F0EA;       /* Beige lino / Marfil */
+      --text-main: #3E2723;        /* Café moca / Espresso */
+      --accent-gold: #8797A3;      /* Blue suave */
+      --tag-mauve: #A67B82;        /* Mauve / Rosa Cattleya */
+      --card-bg: #FFFFFF;
+      --border-soft: rgba(197, 160, 89, 0.35);
+      --border-gold: rgba(197, 160, 89, 0.8);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .catalog-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(244, 240, 234, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(62, 39, 35, 0.05);
+    }
+
+    .toolbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background-color: var(--accent-gold);
+      color: #FFFFFF;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-action:hover {
+      background-color: #b38e45;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+    }
+
+    /* Contenedor principal */
+    .catalog-wrapper {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    .catalog-cover {
+      background: linear-gradient(180deg, #FBF9F5 0%, #F4F0EA 100%);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 70px 32px;
+      text-align: center;
+      margin-bottom: 48px;
+      box-shadow: 0 10px 30px rgba(62, 39, 35, 0.04);
+    }
+
+    .cover-border-inner {
+      border: 1px solid var(--accent-gold);
+      padding: 50px 24px;
+      border-radius: 4px;
+    }
+
+    .brand-eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent-gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .cover-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--accent-gold);
+      margin: 18px auto;
+    }
+
+    .cover-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
+
+    .cover-meta {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #6D4C41;
+      font-weight: 500;
+    }
+
+    /* Separadores de Colección en pantalla */
+    .collection-header {
+      margin: 48px 0 28px;
+      text-align: center;
+      position: relative;
+    }
+
+    .collection-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: inline-block;
+      padding: 0 18px;
+      background: var(--bg-primary);
+      position: relative;
+      z-index: 2;
+    }
+
+    .collection-header-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border-gold);
+      z-index: 1;
+    }
+
+    .product-page {
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      margin-bottom: 36px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(62, 39, 35, 0.03);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      clear: both;
+    }
+
+    .product-image-container {
+      background-color: #EFEBE4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 500px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .product-image:hover {
+      transform: scale(1.02);
+    }
+
+    .product-info-container {
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #FFFFFF;
+    }
+
+    .product-header-block {
+      margin-bottom: 20px;
+    }
+
+    .product-ref-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+    }
+
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.28;
+      margin-bottom: 16px;
+      word-break: break-word;
+    }
+
+    .product-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge-tag {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-color-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(0,0,0,0.18);
+    }
+
+    .badge-size {
+      background-color: var(--accent-gold);
+      color: #FFFFFF;
+      font-weight: 600;
+      border: none;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-price {
+      background-color: var(--tag-mauve);
+      color: #FFFFFF;
+      font-weight: 700;
+      border: none;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(166, 123, 130, 0.35);
+    }
+
+    .badge-status {
+      background-color: #6D4C41;
+      color: #FFFFFF;
+      font-weight: 600;
+      border: none;
+      letter-spacing: 0.5px;
+    }
+
+    .product-description-block {
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .description-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #8D6E63;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .product-description-text {
+      font-size: 0.92rem;
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    /* Colores identificadores para viñetas */
+    .color-amarillo { background-color: #F8E896; }
+    .color-blanco { background-color: #FFFFFF; }
+    .color-negro { background-color: #1A1A1A; }
+    .color-beige { background-color: #E2CEB5; }
+    .color-rojo { background-color: #C0292B; }
+    .color-chocolate { background-color: #4E3629; }
+    .color-cafe { background-color: #5D4037; }
+    .color-vino { background-color: #5B1E31; }
+    .color-multi { background: linear-gradient(135deg, #1A1A1A 0%, #C0292B 33%, #F8E896 66%, #FFFFFF 100%); }
+    .color-multi-pastel { background: linear-gradient(135deg, #7BA7BC 0%, #FFFFFF 25%, #F7A890 50%, #F8E896 75%, #4E3629 100%); }
+    .color-azul-cielo { background-color: #95BEE0; }
+    .color-hueso { background-color: #F6F3EB; }
+    .color-verde { background-color: #1A4D4E; }
+
+    /* CIERRE COMERCIAL */
+    .catalog-closing {
+      background: #FBF9F5;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 48px 32px;
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    .closing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .closing-text {
+      font-size: 0.92rem;
+      color: #5D4037;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .catalog-toolbar {
+        padding: 10px 16px;
+      }
+      .toolbar-title {
+        font-size: 0.92rem;
+      }
+      .catalog-wrapper {
+        padding: 16px 12px 60px;
+      }
+      .catalog-cover {
+        padding: 40px 16px;
+        margin-bottom: 28px;
+      }
+      .cover-border-inner {
+        padding: 32px 14px;
+      }
+      .cover-title {
+        font-size: 2rem;
+      }
+      .cover-subtitle {
+        font-size: 1.05rem;
+      }
+      .product-page {
+        grid-template-columns: 1fr;
+        margin-bottom: 28px;
+      }
+      .product-image-container {
+        min-height: 400px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .product-info-container {
+        padding: 26px 18px;
+      }
+      .product-title {
+        font-size: 1.45rem;
+      }
+    }
+
+    @page {
+      size: portrait;
+      margin: 0; /* Suprime encabezados automáticos de fecha y URL del navegador */
+    }
+
+    @media print {
+      * {
+        box-sizing: border-box !important;
+      }
+
+      html, body {
+        background-color: #FFFFFF !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      .catalog-toolbar,
+      .collection-header {
+        display: none !important;
+      }
+
+      .catalog-wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Portada ajustada a 98vh para evitar salto accidental a página 2 */
+      .catalog-cover {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 8mm 12mm !important;
+        width: 100% !important;
+        height: 98vh !important;
+        max-height: 98vh !important;
+        min-height: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+      }
+
+      .cover-border-inner {
+        padding: 20mm 14mm !important;
+        width: 90% !important;
+        border: 2px solid var(--accent-gold) !important;
+      }
+
+      /* Fichas de producto individuales fijas a exactamente 1 hoja */
+      .product-page {
+        box-shadow: none !important;
+        border: none !important;
+        border-bottom: none !important;
+        margin: 0 !important;
+        padding: 8mm 10mm !important;
+        width: 100% !important;
+        height: 98vh !important;
+        max-height: 98vh !important;
+        min-height: 0 !important;
+        display: grid !important;
+        grid-template-columns: 54% 46% !important;
+        overflow: hidden !important;
+        page-break-before: auto !important;
+        break-before: auto !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .product-image-container {
+        height: 100% !important;
+        max-height: 100% !important;
+        min-height: 0 !important;
+        border-right: 1px solid var(--border-soft) !important;
+        border-bottom: none !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background-color: #EFEBE4 !important;
+        padding: 6px !important;
+      }
+
+      .product-image {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important; /* Preserva la proporción completa sin recortes laterales */
+        object-position: center center !important;
+        display: block !important;
+      }
+
+      .product-info-container {
+        padding: 20px 22px !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 14px !important;
+      }
+
+      .product-header-block {
+        margin-bottom: 0 !important;
+      }
+
+      .product-title {
+        font-size: 1.45rem !important;
+        margin-bottom: 10px !important;
+        line-height: 1.25 !important;
+      }
+
+      .product-badges {
+        margin-bottom: 0 !important;
+        gap: 6px !important;
+      }
+
+      .badge-tag {
+        font-size: 0.74rem !important;
+        padding: 4px 10px !important;
+      }
+
+      .product-description-block {
+        padding: 10px 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      .product-description-text {
+        font-size: 0.84rem !important;
+        line-height: 1.48 !important;
+      }
+
+      /* Cierre comercial a exactamente 1 hoja sin salto posterior (evita página 14 en blanco) */
+      .catalog-closing {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 8mm 12mm !important;
+        width: 100% !important;
+        height: 98vh !important;
+        max-height: 98vh !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        page-break-before: auto !important;
+        break-before: auto !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Herramientas Superior -->
+  <header class="catalog-toolbar">
+    <div class="toolbar-title">El Clóset de Joseline · Catálogo Digital</div>
+    <div class="toolbar-actions">
+      <button class="btn-action" onclick="window.print()">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+          <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+        </svg>
+        Descargar en PDF / Imprimir
+      </button>
+    </div>
+  </header>
+
+  <main class="catalog-wrapper">
+
+    <!-- PORTADA DEL CATÁLOGO -->
+    <section class="catalog-cover">
+      <div class="cover-border-inner">
+        <div class="brand-eyebrow">El Clóset de Joseline</div>
+        <h1 class="cover-title">Catálogo</h1>
+        <div class="cover-divider"></div>
+        <p class="cover-subtitle">“Estilo, calidad y elegancia en cada detalle”</p>
+        <div class="cover-meta">Colección Exclusiva · Ropa Femenina 100% Nueva</div>
+      </div>
+    </section>
+
+    <!-- AGRUPACIÓN 1: LÍNEA BANDEJA MALLA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Bandeja Malla</h2>
+    </div>
+
+    <!-- Ficha 01: Blusa Bandeja Malla Amarillo -->
+    <article class="product-page" id="item-01">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaBandejaMallaAmarillo.jpg" alt="Blusa Bandeja Malla Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Bandeja+Malla+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 01</span>
+          <h3 class="product-title">Blusa Bandeja Malla Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Blusa de escote descubierto tipo bandeja con diseño fruncido vertical en el centro del busto. Confeccionada con mangas largas de tela malla semitransparente con pliegues horizontales que estilizan los brazos y ajuste ceñido al cuerpo.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 02: Blusa Bandeja Malla Blanco -->
+    <article class="product-page" id="item-02">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaBandejaMallaBlanco.jpg" alt="Blusa Bandeja Malla Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Bandeja+Malla+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 02</span>
+          <h3 class="product-title">Blusa Bandeja Malla Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco puro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Diseño off-shoulder de silueta estructurada en color blanco con detalle central fruncido que realza el escote. Presenta mangas completas en tejido tipo malla traslúcida con drapeado continuo y ajuste anatómico al torso.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 03: Blusa Bandeja Malla Negra -->
+    <article class="product-page" id="item-03">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaBandejaMallaNegra.jpg" alt="Blusa Bandeja Malla Negra" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Bandeja+Malla+Negra';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 03</span>
+          <h3 class="product-title">Blusa Bandeja Malla Negra</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro profundo
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Blusa en tono negro profundo con hombros al descubierto y escote en corte recto/corazón sutil. Cuenta con fruncido elástico en el pecho y mangas largas en material de tul o malla semitransparente ceñidas.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Cleopatra</h2>
+    </div>
+
+    <!-- Ficha 04: Blusa Cleopatra Beiz -->
+    <article class="product-page" id="item-04">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaCleopatraBeiz.jpg" alt="Blusa Cleopatra Beiz" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Cleopatra+Beiz';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 04</span>
+          <h3 class="product-title">Blusa Cleopatra Beiz</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-beige"></span>
+              Color: Beige / Nude
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top estilo halter protagonizado por una gargantilla rígida metálica en tono dorado brillante. Diseño con pronunciado escote frontal en 'V' de caída drapeada y tela satinada con textura suave y acabado elegante.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 05: Blusa Cleopatra Blanco -->
+    <article class="product-page" id="item-05">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaCleopatraBlanco.jpg" alt="Blusa Cleopatra Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Cleopatra+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 05</span>
+          <h3 class="product-title">Blusa Cleopatra Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco brillante
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top de cuello halter en tela lisa blanca con brillo sutil. Incorpora un collar metálico dorado curvo que sostiene el delantero, dejando fluir un escote profundo con pliegues drapeados holgados hasta la cintura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 06: Blusa Cleopatra Negro -->
+    <article class="product-page" id="item-06">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaCleopatraNegro.jpg" alt="Blusa Cleopatra Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Cleopatra+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 06</span>
+          <h3 class="product-title">Blusa Cleopatra Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro azabache
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Blusa en color negro azabache con cuello halter ajustado por gargantilla metálica dorada decorativa. Posee una silueta holgada en el frente con escote vertical profundo y caída drapeada libre.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 07: Blusa Cleopatra Rojo -->
+    <article class="product-page" id="item-07">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaCleopatraRojo.jpg" alt="Blusa Cleopatra Rojo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Cleopatra+Rojo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 07</span>
+          <h3 class="product-title">Blusa Cleopatra Rojo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-rojo"></span>
+              Color: Rojo carmín
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top halter en llamativo tono rojo con aro/gargantilla metálica tubular dorada al cuello. Destaca por su escote en cascada frontal pronunciado y confección fluida que cae con movimiento natural sobre el abdomen.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 08: Body Cleopatra Blanco -->
+    <article class="product-page" id="item-08">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyCleopatraBlanco.jpg" alt="Body Cleopatra Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Cleopatra+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 08</span>
+          <h3 class="product-title">Body Cleopatra Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco puro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body estilo halter en color blanco con cuello rígido metálico dorado tipo gargantilla. Diseño con pronunciado escote frontal en 'V' de efecto drapeado fluido que estiliza la silueta con ajuste anatómico en la parte inferior.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 09: Body Cleopatra Negro -->
+    <article class="product-page" id="item-09">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyCleopatraNegro.jpg" alt="Body Cleopatra Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Cleopatra+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 09</span>
+          <h3 class="product-title">Body Cleopatra Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro azabache
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body en tono negro profundo con cuello halter adornado con gargantilla metálica dorada tubular. Cuenta con elegante escote vertical en cascada profunda y diseño ceñido de corte anatómico.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Hebilla Destellante</h2>
+    </div>
+
+    <!-- Ficha 10: Blusa Hebilla Destellante Colores -->
+    <article class="product-page" id="item-10">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaHebillaDestellanteColores.jpg" alt="Blusa Hebilla Destellante Colores" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Hebilla+Destellante+Colores';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 10</span>
+          <h3 class="product-title">Blusa Hebilla Destellante Colores</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-multi"></span>
+              Color: Gama disponible (Blanco, Café, Rojo, Amarillo, Negro)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Muestrario de la línea de blusas asimétricas monohombro con herraje dorado ovalado de textura entrelazada en el hombro. Diseño con drapeado diagonal envolvente que cruza el pecho y el torso, disponible en múltiples variantes tonales.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 11: Blusa Hebilla Destellante Negro -->
+    <article class="product-page" id="item-11">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaHebillaDestellanteNegro.jpg" alt="Blusa Hebilla Destellante Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Hebilla+Destellante+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 11</span>
+          <h3 class="product-title">Blusa Hebilla Destellante Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Blusa asimétrica en color negro con un solo hombro al descubierto. Cuenta con una hebilla metálica decorativa dorada con relieve en el tirante izquierdo y un drapeado horizontal ceñido que define la silueta.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 12: Blusa Hebilla Destellantes Amarillo -->
+    <article class="product-page" id="item-12">
+      <div class="product-image-container">
+        <img class="product-image" src="blusaHebillaDestellantesAmarillo.jpg" alt="Blusa Hebilla Destellantes Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Blusa+Hebilla+Destellantes+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 12</span>
+          <h3 class="product-title">Blusa Hebilla Destellantes Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo suave / Mantequilla
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top asimétrico de un solo hombro en tonalidad amarilla clara. Presenta detalle de aplique dorado tipo hebilla texturizada en el hombro y acabado de pliegues drapeados diagonales a lo largo de todo el torso.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 13: Body Hebilla ML Colores -->
+    <article class="product-page" id="item-13">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyHebillaMLColores.jpg" alt="Body Hebilla ML Colores" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Hebilla+ML+Colores';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 13</span>
+          <h3 class="product-title">Body Hebilla ML Colores</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-multi"></span>
+              Color: Gama disponible (Negro, Amarillo, Azul cielo, Blanco, Rojo, Café)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Muestrario de la línea de bodys asimétricos de manga larga con herraje dorado ovalado en el hombro. Confeccionados con drapeado envolvente en el pecho y ajuste ceñido al cuerpo, disponibles en variedad de colores.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 14: Body Hebilla ML Amarillo -->
+    <article class="product-page" id="item-14">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyHebillaMLAmarillo.jpg" alt="Body Hebilla ML Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Hebilla+ML+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 14</span>
+          <h3 class="product-title">Body Hebilla ML Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel / Mantequilla
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body asimétrico de manga larga en tono amarillo pastel. Presenta hombro descubierto con detalle de hebilla metálica dorada texturizada y drapeado diagonal sobre el pecho con silueta entallada.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 15: Body Hebilla ML Negro -->
+    <article class="product-page" id="item-15">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyHebillaMLNegro.jpg" alt="Body Hebilla ML Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Hebilla+ML+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 15</span>
+          <h3 class="product-title">Body Hebilla ML Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga larga en color negro con escote asimétrico y un hombro al descubierto. Cuenta con elegante aplique de hebilla dorada y acabado drapeado cruzado que estiliza la figura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 16: Body Hebilla ML Vino -->
+    <article class="product-page" id="item-16">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyHebillaMLVino.jpg" alt="Body Hebilla ML Vino" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Hebilla+ML+Vino';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 16</span>
+          <h3 class="product-title">Body Hebilla ML Vino</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-vino"></span>
+              Color: Vino tinto / Borgoña
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body asimétrico de manga larga en tono vino tinto profundo. Destaca por su escote caído hacia un hombro adornado con hebilla metálica dorada y pliegues horizontales que realzan el busto.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Clásico Blonda</h2>
+    </div>
+
+    <!-- Ficha 17: Body Clásico Blonda Colores -->
+    <article class="product-page" id="item-17">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyClasicoBlondaColores.jpg" alt="Body Clásico Blonda Colores" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Clasico+Blonda+Colores';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 17</span>
+          <h3 class="product-title">Body Clásico Blonda Colores</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-multi"></span>
+              Color: Muestrario (Amarillo pastel, Café chocolate, Negro)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de cuello redondo y mangas largas elaborado en delicado encaje floral tipo blonda con acabado semitransparente. Muestrario disponible en variantes de tono amarillo suave, marrón café y negro clásico con ribete reforzado en escote.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 18: Body Clásico Blonda Negro -->
+    <article class="product-page" id="item-18">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyClasicoBlondaNegro.jpg" alt="Body Clásico Blonda Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Clasico+Blonda+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 18</span>
+          <h3 class="product-title">Body Clásico Blonda Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de mangas largas confeccionado en blonda con diseño floral traslúcido en tono negro profundo. Posee cuello redondo fino, copas o forro liso tipo bustier en el pecho y ajuste ceñido al cuerpo.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Copa Mar</h2>
+    </div>
+
+    <!-- Ficha 19: Body Copa Mar Rojo -->
+    <article class="product-page" id="item-19">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyCopaMarRojo.jpg" alt="Body Copa Mar Rojo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Copa+Mar+Rojo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 19</span>
+          <h3 class="product-title">Body Copa Mar Rojo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-rojo"></span>
+              Color: Rojo carmín
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga larga en vibrante color rojo carmín. Destaca por sus copas estructuradas con diseño plisado semicircular bajo el busto, abertura cut-out superior en el pecho y costuras verticales que estilizan la cintura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 20: Body Copa Mar Negro -->
+    <article class="product-page" id="item-20">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyCopaMarNegro.jpg" alt="Body Copa Mar Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Copa+Mar+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 20</span>
+          <h3 class="product-title">Body Copa Mar Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga larga en color negro con copas de silueta concha plisada y corte horizontal abierto sobre el busto. Confeccionado en tela elástica lisa con pespuntes verticales tipo corsetería.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 21: Body Copa Mar Chocolate -->
+    <article class="product-page" id="item-21">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyCopaMarChocolate.jpg" alt="Body Copa Mar Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Copa+Mar+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 21</span>
+          <h3 class="product-title">Body Copa Mar Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body en tono café chocolate con mangas completas y escote redondeado. Cuenta con detalle de copas plisadas que realzan el busto, abertura central en el escote y líneas de corte anatómico en el torso.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Espalda Placa</h2>
+    </div>
+
+    <!-- Ficha 22: Body Espalda Placa Amarillo -->
+    <article class="product-page" id="item-22">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyEspaldaPlacaAmarillo.jpg" alt="Body Espalda Placa Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Espalda+Placa+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 22</span>
+          <h3 class="product-title">Body Espalda Placa Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga corta y cuello redondo en color amarillo suave. Presenta aplique de placa metálica triangular decorativa en el centro del pecho y un llamativo escote abierto circular en la espalda.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Gota</h2>
+    </div>
+
+    <!-- Ficha 23: Body Gota Negro -->
+    <article class="product-page" id="item-23">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyGotaNegro.jpg" alt="Body Gota Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Gota+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 23</span>
+          <h3 class="product-title">Body Gota Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga larga en color negro que combina tela lisa con paneles de malla transparente. Incorpora un diseño curvo semitraslúcido en diagonal a lo largo del torso y caderas que estiliza la silueta.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Manga Malla</h2>
+    </div>
+
+    <!-- Ficha 24: Body Manga Malla Café -->
+    <article class="product-page" id="item-24">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMangaMallaCafe.jpg" alt="Body Manga Malla Café" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Manga+Malla+Cafe';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 24</span>
+          <h3 class="product-title">Body Manga Malla Café</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-cafe"></span>
+              Color: Marrón café
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body asimétrico en tono café con diseño monohombro y cuello alto asimétrico. Combina tela lisa con mangas largas y panel diagonal en malla semitransparente al tono.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 25: Body Manga Malla Negro -->
+    <article class="product-page" id="item-25">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMangaMallaNegro.jpg" alt="Body Manga Malla Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Manga+Malla+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 25</span>
+          <h3 class="product-title">Body Manga Malla Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body en color negro con escote asimétrico tipo halter cruzado y un hombro al descubierto. Incorpora mangas largas confeccionadas en tul o malla semitransparente con textura sutil.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Merlina</h2>
+    </div>
+
+    <!-- Ficha 26: Body Merlina Blanco -->
+    <article class="product-page" id="item-26">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMerlinaBlanco.jpg" alt="Body Merlina Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Merlina+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 26</span>
+          <h3 class="product-title">Body Merlina Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco puro con contraste negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body deportivo y casual de silueta entallada en color blanco con cuello tipo polo abierto en contraste negro. Cuenta con mangas cortas con ribetes bicolores y estampado tipográfico en el pecho.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 27: Body Merlina Amarillo -->
+    <article class="product-page" id="item-27">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMerlinaAmarillo.jpg" alt="Body Merlina Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Merlina+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 27</span>
+          <h3 class="product-title">Body Merlina Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel con blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body estilo polo de manga corta en tono amarillo suave. Diseñado con solapa y cuello camisero blanco sin botones, detalle de ribete blanco en las mangas y bordado sutil en el lateral del pecho.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 28: Body Merlina Rojo -->
+    <article class="product-page" id="item-28">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMerlinaRojo.jpg" alt="Body Merlina Rojo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Merlina+Rojo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 28</span>
+          <h3 class="product-title">Body Merlina Rojo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-rojo"></span>
+              Color: Rojo carmín con blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga corta en vibrante color rojo carmín con cuello camisero tipo polo en contraste blanco. Presenta abertura en 'V', ribetes a rayas en las mangas y bordado en el pecho.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 29: Body Merlina ML Amarillo -->
+    <article class="product-page" id="item-29">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyMerlinaMLAmarillo.jpg" alt="Body Merlina ML Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Merlina+ML+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 29</span>
+          <h3 class="product-title">Body Merlina ML Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel con blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body camisero de manga larga en color amarillo mantequilla. Posee cuello polo abierto en contraste blanco, costuras longitudinales que estilizan la silueta y bordado frontal en el busto.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY O BLONDA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body O Blonda</h2>
+    </div>
+
+    <!-- Ficha 30: Body O Blonda Colores -->
+    <article class="product-page" id="item-30">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyOBlondaColores.jpg" alt="Body O Blonda Colores" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+O+Blonda+Colores';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 30</span>
+          <h3 class="product-title">Body O Blonda Colores</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-multi"></span>
+              Color: Muestrario (Rojo carmín, Amarillo vainilla, Café chocolate)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Muestrario de bodys de manga larga confeccionados en combinación de tela lisa y mangas en encaje floral tipo blonda con acabado semitransparente. Destaca su escote posterior y hombros en corte caído con ribete fino al tono.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 31: Body O Blond Chocolate -->
+    <article class="product-page" id="item-31">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyOBlondChocolate.jpg" alt="Body O Blond Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+O+Blond+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 31</span>
+          <h3 class="product-title">Body O Blond Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body en tono café chocolate con mangas largas y cuello alto en delicada blonda floral translúcida. Presenta una atractiva abertura cut-out horizontal sobre el busto que contrasta con el cuerpo de corte recto en tejido liso y ceñido.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY SUPREMA ESTRELLA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Suprema Estrella</h2>
+    </div>
+
+    <!-- Ficha 32: Body Suprema Estrella Chocolate -->
+    <article class="product-page" id="item-32">
+      <div class="product-image-container">
+        <img class="product-image" src="bodySupremaEstrellaChocolate.jpg" alt="Body Suprema Estrella Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Suprema+Estrella+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 32</span>
+          <h3 class="product-title">Body Suprema Estrella Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body estilo halter en tela lisa color café chocolate. Cuenta con un pronunciado y elegante escote redondeado en el busto y un exclusivo herraje metálico dorado circular con motivo de estrella en el tirante izquierdo, con hombros y espalda despejados.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY VMC DESTELLANTE -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body VMC Destellante</h2>
+    </div>
+
+    <!-- Ficha 33: Body VMC Destellante Chocolate -->
+    <article class="product-page" id="item-33">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyVMCDestellanteChocolate.jpg" alt="Body VMC Destellante Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+VMC+Destellante+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 33</span>
+          <h3 class="product-title">Body VMC Destellante Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga corta en color café chocolate con favorecedor escote en 'V' profundo y copas estructuradas. Incorpora un delicado aplique metálico dorado decorativo en el centro del busto y costuras anatómicas que estilizan la silueta.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY PERLA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body Perla</h2>
+    </div>
+
+    <!-- Ficha 34: Body Perla Negro -->
+    <article class="product-page" id="item-34">
+      <div class="product-image-container">
+        <img class="product-image" src="boodyPerlaNegro.jpg" alt="Body Perla Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+Perla+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 34</span>
+          <h3 class="product-title">Body Perla Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro con perlas blancas
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de cuello redondo y manga corta confeccionado en tela elástica negra. Presenta una hilera vertical de aberturas sutiles en el centro frontal unidas por aplicaciones decorativas de perlas nacaradas que van desde el escote hasta la cintura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY T DESTELLANTE -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body T Destellante</h2>
+    </div>
+
+    <!-- Ficha 35: Body T Destellante Negro -->
+    <article class="product-page" id="item-35">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyTDestellanteNegro.jpg" alt="Body T Destellante Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+T+Destellante+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 35</span>
+          <h3 class="product-title">Body T Destellante Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro profundo
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body de manga larga en color negro con amplio escote redondeado. Destaca por su diseño arquitectónico que combina tela opaca con paneles simétricos de malla semitransparente sobre el busto y a ambos costados de la cintura para un efecto estilizador.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA BODY X MALLATEX -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Body X Mallatex</h2>
+    </div>
+
+    <!-- Ficha 36: Body X Mallatex Colores -->
+    <article class="product-page" id="item-36">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyXMallatexColores.jpg" alt="Body X Mallatex Colores" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+X+Mallatex+Colores';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 36</span>
+          <h3 class="product-title">Body X Mallatex Colores</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-multi-pastel"></span>
+              Color: Muestrario (Café, Amarillo, Durazno, Blanco, Azul cielo)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Muestrario de bodys de hombros descubiertos con diseño cruzado en 'X' sobre el pecho en tejido tipo malla drapeada. Confeccionados con mangas largas y torso en tela translúcida que crea un efecto envolvente y estilizado.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 37: Body X Mallatex Blanco -->
+    <article class="product-page" id="item-37">
+      <div class="product-image-container">
+        <img class="product-image" src="bodyXMallatexBlanco.jpg" alt="Body X Mallatex Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Body+X+Mallatex+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 37</span>
+          <h3 class="product-title">Body X Mallatex Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco puro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Body en color blanco puro con escote bardot de hombros al descubierto y sofisticado drapeado cruzado en 'X' sobre el busto. Cuenta con mangas largas en tela tipo malla semitransparente y cuerpo liso de ajuste anatómico.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CHAQUETA DEPORTIVA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Chaqueta Deportiva</h2>
+    </div>
+
+    <!-- Ficha 38: Chaqueta Adidas Roja -->
+    <article class="product-page" id="item-38">
+      <div class="product-image-container">
+        <img class="product-image" src="chaquetaAdidasRoja.jpg" alt="Chaqueta Adidas Roja" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Chaqueta+Adidas+Roja';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 38</span>
+          <h3 class="product-title">Chaqueta Adidas Roja</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-rojo"></span>
+              Color: Rojo carmín con franjas blancas
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Chaqueta deportiva corta tipo crop top en color rojo carmín de cuello alto y cierre frontal completo de cremallera blanca. Diseñada con las icónicas tres franjas laterales a lo largo de las mangas y logotipo bordado en el pecho.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CONJUNTO COPA BLONDA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Conjunto Copa Blonda</h2>
+    </div>
+
+    <!-- Ficha 39: Conjunto Copa Blonda Negro -->
+    <article class="product-page" id="item-39">
+      <div class="product-image-container">
+        <img class="product-image" src="conjuntoCopaBlondaNegro.jpg" alt="Conjunto Copa Blonda Negro" onerror="this.onerror=null; this.src='conjuntoCopaBlondaNegro2.jpg';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 39</span>
+          <h3 class="product-title">Conjunto Copa Blonda Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro azabache
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Set exclusivo de dos piezas elaborado en encaje floral tipo blonda en tono negro profundo. Top estructurado estilo bustier con copas forradas, aros de soporte y mangas largas traslúcidas; acompañado de pantalón acampanado de pretina alta con short interno opaco y cremallera frontal dorada visible.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CORSET COPA PIEL BROCHE -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Corset Copa Piel Broche</h2>
+    </div>
+
+    <!-- Ficha 40: Corset Copa Piel Broche Beiz -->
+    <article class="product-page" id="item-40">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetCopaPielBrocheBeiz.jpg" alt="Corset Copa Piel Broche Beiz" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Copa+Piel+Broche+Beiz';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 40</span>
+          <h3 class="product-title">Corset Copa Piel Broche Beiz</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-beige"></span>
+              Color: Beige / Nude
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top estilo corset en blonda floral beige con mangas largas traslúcidas. Incorpora copas con forro nude efecto piel, abertura en forma de gota sobre el busto rematada con broche metálico superior y corte ceñido al torso.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 41: Corset Copa Piel Broche Chocolate -->
+    <article class="product-page" id="item-41">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetCopaPielBrocheChocolate.jpg" alt="Corset Copa Piel Broche Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Copa+Piel+Broche+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 41</span>
+          <h3 class="product-title">Corset Copa Piel Broche Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top corset en encaje tipo blonda en tono café chocolate con mangas largas semitransparentes. Cuenta con forro interior en tono piel en el área del busto, detalle de cut-out superior con broche metálico decorativo y silueta entallada.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 42: Corset Copa Piel Broche Negro -->
+    <article class="product-page" id="item-42">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetCopaPielBrocheNegro.jpg" alt="Corset Copa Piel Broche Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Copa+Piel+Broche+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 42</span>
+          <h3 class="product-title">Corset Copa Piel Broche Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro con forro piel
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Corset de blonda floral en negro profundo con contraste de forro nude efecto piel en las copas estructuradas. Presenta abertura circular en el escote asegurada con broche metálico superior y mangas largas traslúcidas.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CORSET DESTELLANTE ML -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Corset Destellante ML</h2>
+    </div>
+
+    <!-- Ficha 43: Corset Destellante ML Chocolate -->
+    <article class="product-page" id="item-43">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetDestellanteMLChocolate.jpg" alt="Corset Destellante ML Chocolate" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Destellante+ML+Chocolate';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 43</span>
+          <h3 class="product-title">Corset Destellante ML Chocolate</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-chocolate"></span>
+              Color: Café chocolate
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top corset de manga larga en tejido liso color café chocolate. Confeccionado con copas armadas de escote semicorazón, costuras verticales estilizadoras y bajo en corte triangular en pico característico de corsetería.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 44: Corset Destellante ML Negro -->
+    <article class="product-page" id="item-44">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetDestellanteMLNegro.jpg" alt="Corset Destellante ML Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Destellante+ML+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 44</span>
+          <h3 class="product-title">Corset Destellante ML Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro profundo
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top corset entallado de manga larga en color negro azabache. Posee copas estructuradas que realzan el escote, líneas anatómicas verticales en el torso y remate inferior asimétrico en punta.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CORSET MALLA -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Corset Malla</h2>
+    </div>
+
+    <!-- Ficha 45: Corset Malla -->
+    <article class="product-page" id="item-45">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetMalla.jpg" alt="Corset Malla" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Malla';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 45</span>
+          <h3 class="product-title">Corset Malla</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-azul-cielo"></span>
+              Color: Gama disponible (Azul cielo, Blanco, Negro)
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Colección Colores</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Corset strapless con copas forradas estructuradas y cuerpo traslúcido en tejido de malla. Incorpora varillas verticales visibles que moldean la cintura y bajo clásico en pico, disponible en tonos azul pastel, blanco y negro.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CORSET AFELPADO -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Corset Afelpado</h2>
+    </div>
+
+    <!-- Ficha 46: Corset Afelpado Negro -->
+    <article class="product-page" id="item-46">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetAfelpadoNegro.jpg" alt="Corset Afelpado Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Afelpado+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 46</span>
+          <h3 class="product-title">Corset Afelpado Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top corset de manga larga elaborado en tela de malla semitransparente con textura afelpada tipo cebra o animal print en relieve negro. Incorpora copas con varillas de soporte y acabado en punta en la cintura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA CORSET RIB -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Corset Rib</h2>
+    </div>
+
+    <!-- Ficha 47: Corset Rib Hueso -->
+    <article class="product-page" id="item-47">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetRibHueso.jpg" alt="Corset Rib Hueso" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Rib+Hueso';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 47</span>
+          <h3 class="product-title">Corset Rib Hueso</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-hueso"></span>
+              Color: Blanco hueso / Marfil
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top estilo corset en tela elástica acanalada tono blanco hueso. Presenta cuello redondo, mangas cortas, copas estructuradas con costuras marcadas que realzan el busto y remate inferior curvado en pico.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 48: Corset Rib Amarillo -->
+    <article class="product-page" id="item-48">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetRibAmarillo.jpg" alt="Corset Rib Amarillo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Rib+Amarillo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 48</span>
+          <h3 class="product-title">Corset Rib Amarillo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-amarillo"></span>
+              Color: Amarillo pastel / Mantequilla
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top corto de silueta corset en tonalidad amarillo suave. Diseñado con mangas cortas, cuello redondo clásico, pespuntes anatómicos verticales en el abdomen y aros decorativos que enmarcan las copas.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 49: Corset Rib Rojo -->
+    <article class="product-page" id="item-49">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetRibRojo.jpg" alt="Corset Rib Rojo" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Rib+Rojo';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 49</span>
+          <h3 class="product-title">Corset Rib Rojo</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-rojo"></span>
+              Color: Rojo carmín
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top entallado en vibrante color rojo carmín confeccionado en tejido elástico. Cuenta con diseño frontal tipo corsetería, costuras de realce en las copas, cuello redondo y silueta corta estilizadora.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 50: Corset Rib Blanco -->
+    <article class="product-page" id="item-50">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetRibBlanco.jpg" alt="Corset Rib Blanco" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Rib+Blanco';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 50</span>
+          <h3 class="product-title">Corset Rib Blanco</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-blanco"></span>
+              Color: Blanco puro
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top de manga corta en blanco puro con detalles de corsetería moderna. Presenta costuras verticales que afinan el talle, copas perfiladas en el pecho, cuello redondeado y ajuste anatómico al torso.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 51: Corset Rib Negro -->
+    <article class="product-page" id="item-51">
+      <div class="product-image-container">
+        <img class="product-image" src="corsetRibNegro.jpg" alt="Corset Rib Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Corset+Rib+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 51</span>
+          <h3 class="product-title">Corset Rib Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro profundo
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Top estilo corset en color negro de manga corta y cuello redondo. Incorpora líneas estructuradas con relieve que contornean el busto y el abdomen, finalizando en un bajo sutilmente asimétrico.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA ENTERIZO POLO -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Enterizo Polo</h2>
+    </div>
+
+    <!-- Ficha 52: Enterizo Polo ML Negro -->
+    <article class="product-page" id="item-52">
+      <div class="product-image-container">
+        <img class="product-image" src="enterizoPoloMLNegro.jpg" alt="Enterizo Polo ML Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Enterizo+Polo+ML+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 52</span>
+          <h3 class="product-title">Enterizo Polo ML Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro con ribete blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Enterizo largo de silueta ceñida en color negro con mangas completas. Diseñado con cuello tipo polo adornado con doble ribete blanco en contraste, cremallera metálica frontal ajustable y aplique de placa en el pecho.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 53: Enterizo Polo MC Negro -->
+    <article class="product-page" id="item-53">
+      <div class="product-image-container">
+        <img class="product-image" src="EnterizoPoloMCNegro.jpg" alt="Enterizo Polo MC Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Enterizo+Polo+MC+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 53</span>
+          <h3 class="product-title">Enterizo Polo MC Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro con ribete blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Enterizo largo ajustado de manga corta en tono negro. Cuenta con cuello camisero tipo polo con ribetes en contraste, cremallera vertical plateada al frente y placa metálica decorativa, confeccionado en tela elástica que moldea la figura.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 54: Enterizo Polo MC Verde -->
+    <article class="product-page" id="item-54">
+      <div class="product-image-container">
+        <img class="product-image" src="enterizoPoloMCVerde.jpg" alt="Enterizo Polo MC Verde" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Enterizo+Polo+MC+Verde';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 54</span>
+          <h3 class="product-title">Enterizo Polo MC Verde</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-verde"></span>
+              Color: Verde esmeralda / Petróleo
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Enterizo largo en sofisticado tono verde esmeralda profundo de manga corta. Incorpora cuello deportivo tipo polo con detalle de líneas blancas, cremallera metálica en el escote y placa distintiva en el lateral superior.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- AGRUPACIÓN: LÍNEA VESTIDO DÚO -->
+    <div class="collection-header">
+      <div class="collection-header-line"></div>
+      <h2 class="collection-header-title">Línea Vestido Dúo</h2>
+    </div>
+
+    <!-- Ficha 55: Vestido Dúo Café -->
+    <article class="product-page" id="item-55">
+      <div class="product-image-container">
+        <img class="product-image" src="vestidoDuoCafe.jpg" alt="Vestido Dúo Café" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Vestido+Duo+Cafe';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 55</span>
+          <h3 class="product-title">Vestido Dúo Café</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-cafe"></span>
+              Color: Café chocolate con blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Vestido corto ajustado con efecto dos en uno. Combina camiseta interna blanca de cuello semi-alto y manga corta con sobrepuesto de vestido en rib café chocolate de tirantes anchos, escote redondeado y drapeado fruncido en la falda.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ficha 56: Vestido Dúo Negro -->
+    <article class="product-page" id="item-56">
+      <div class="product-image-container">
+        <img class="product-image" src="vestidoDuoNegro.jpg" alt="Vestido Dúo Negro" onerror="this.onerror=null; this.src='https://placehold.co/800x1060/F4F0EA/3E2723?text=Vestido+Duo+Negro';">
+      </div>
+      <div class="product-info-container">
+        <div class="product-header-block">
+          <span class="product-ref-tag">Referencia 56</span>
+          <h3 class="product-title">Vestido Dúo Negro</h3>
+          <div class="product-badges">
+            <span class="badge-tag">
+              <span class="badge-color-dot color-negro"></span>
+              Color: Negro profundo con blanco
+            </span>
+            <span class="badge-tag badge-size">Talla única</span>
+            <span class="badge-tag badge-price">$60.000 COP</span>
+            <span class="badge-tag badge-status">Prenda Nueva</span>
+          </div>
+        </div>
+
+        <div class="product-description-block">
+          <span class="description-label">Descripción de la prenda</span>
+          <p class="product-description-text">
+            Vestido corto de silueta entallada con diseño superpuesto bicolor. Presenta top interno blanco con mangas cortas y cuello alto, acompañado de vestido exterior en color negro con tirantes anchos y falda fruncida que estiliza las caderas.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3. CIERRE COMERCIAL -->
+    <section class="catalog-closing">
+      <h3 class="closing-title">El Clóset de Joseline</h3>
+      <p class="closing-text">
+        Todas nuestras prendas son 100% nuevas y seleccionadas bajo los más altos estándares de tendencia y confección. Envíos seguros a todo el país y atención personalizada para apartar tus prendas en nuestras transmisiones en vivo.
+      </p>
+      <div class="cover-divider"></div>
+      <div class="cover-meta">Colección Exclusiva · Gracias por tu preferencia</div>
+    </section>
+
+  </main>
+
+</body>
+</html>
